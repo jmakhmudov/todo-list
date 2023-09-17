@@ -22,21 +22,28 @@ const todosSlice = createSlice({
             reducer(state, action: PayloadAction<Todo>) {
                 state.push(action.payload);
             },
-            prepare(title): {payload: Todo} {
+            prepare(title): { payload: Todo } {
                 return {
                     payload: {
                         id: nanoid(),
-                        title, 
+                        title,
                         done: false
                     }
                 }
             }
+        },
+        todoUpdate(state, action: PayloadAction<string>) {
+            state.map(todo => {
+                if (todo.id === action.payload) {
+                    todo.done = !todo.done
+                }
+            })
         }
     }
 })
 
 export const selectAllTodos = (state: { todos: Todo[] }) => state.todos;
 
-export const {todoAdded} = todosSlice.actions;
+export const { todoAdded, todoUpdate } = todosSlice.actions;
 
 export default todosSlice.reducer;
