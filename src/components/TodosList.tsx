@@ -43,6 +43,7 @@ const TodosList = () => {
             <input
                 onClick={(e) => handleUpdate(e)}
                 type="checkbox"
+                checked={todo.done}
                 name={todo.title}
                 id={todo.id}
                 className='w-4 m-2'
