@@ -2,14 +2,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectAllTodos, todoUpdate, clearCompleted } from "../features/todos/todosSlice";
 import { useState } from "react";
 
+const itemsPerPage = 5;
+
 const TodosList = () => {
     const dispatch = useDispatch();
     const todos = useSelector(selectAllTodos);
     const [filter, setFilter] = useState("all");
-
-    const handleUpdate = (event: any) => {
-        dispatch(todoUpdate(event.target.id));
-    }
+    const [currentPage, setCurrentPage] = useState(1);
 
     const filteredTodos = todos.filter((todo) => {
         if (filter === "active") {
@@ -20,6 +19,21 @@ const TodosList = () => {
             return true;
         }
     });
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    const currentItems = filteredTodos.slice(startIndex, endIndex);
+
+    // Function to handle page change
+    const handlePageChange = (newPage: number) => {
+        setCurrentPage(newPage);
+    };
+    const totalPages = Math.ceil(filteredTodos.length / itemsPerPage);
+
+    const handleUpdate = (event: any) => {
+        dispatch(todoUpdate(event.target.id));
+    }
 
     const handleClick = (btn: string) => {
         setFilter(btn);
@@ -38,7 +52,7 @@ const TodosList = () => {
         dispatch(clearCompleted());
     }
 
-    const renderTodos = filteredTodos.map((todo) => (
+    const renderTodos = currentItems.map((todo) => (
         <div key={todo.id} className='flex items-center py-2'>
             <input
                 onClick={(e) => handleUpdate(e)}
@@ -54,9 +68,36 @@ const TodosList = () => {
         </div>
     ));
 
+
+
+
+
     return (
         <section className='border-t-[1px]'>
-            {renderTodos}
+
+            <div className={``}>
+                {renderTodos}
+                <div className="p-2 border-t-[1px] text-gray-500 font-light text-xs flex justify-between items-center">
+                    <button
+                        disabled={currentPage === 1}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                        Previous
+                    </button>
+
+                    <span>
+                        Page {currentPage} of {totalPages}
+                    </span>
+
+                    <button
+                        disabled={currentPage === totalPages}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                        Next
+                    </button>
+                </div>
+            </div>
+
             <footer className="p-2 border-t-[1px] text-gray-500 font-light text-xs flex justify-between items-center">
                 <p>{itemsLeft()} {itemsLeft() == 1 ? "item" : "items"} left</p>
                 <div className="space-x-1">

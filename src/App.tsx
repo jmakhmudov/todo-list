@@ -6,6 +6,7 @@ import { todoAdded } from './features/todos/todosSlice';
 
 const App = () => {
   const [todo, setTodo] = useState<string>("");
+  const [openList, setOpenList] = useState(true);
   const dispatch = useDispatch();
  
   const addTodo = () => {
@@ -15,12 +16,12 @@ const App = () => {
   }
 
   return (
-    <main className='w-screen h-screen flex flex-col justify-center items-center'>
+    <main className='w-screen h-screen mt-10'>
       <div className='grid place-items-center space-y-4'>
         <h1 className='text-7xl font-thin text-[#E8D8D7]'>todos</h1>
         <section className='bg-white shadow-md w-96 '>
           <div className='flex items-center'>
-            <ChevronDownIcon className='opacity-20 w-5 h-5 m-2 mr-0' />
+            <ChevronDownIcon onClick={() => setOpenList(!openList)} className={`cursor-pointer opacity-20 w-5 h-5 m-2 mr-0 ${openList ? "rotate-180" : ""}`} />
             <input
               type="text"
               value={todo}
@@ -31,7 +32,7 @@ const App = () => {
             <button onClick={addTodo} className='p-2 px-4'>Add</button>
           </div>
 
-          <TodosList />
+          {openList ? <TodosList /> : <></>}
         </section>
       </div>
 
