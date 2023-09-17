@@ -19,7 +19,7 @@ const App = () => {
     <main className='w-screen h-screen mt-10'>
       <div className='grid place-items-center space-y-4'>
         <h1 className='text-7xl font-thin text-[#E8D8D7]'>todos</h1>
-        <section className='bg-white shadow-md w-96 '>
+        <section className='bg-white shadow-md w-80 md:w-96'>
           <div className='flex items-center'>
             <ChevronDownIcon onClick={() => setOpenList(!openList)} className={`cursor-pointer opacity-20 w-5 h-5 m-2 mr-0 ${openList ? "rotate-180" : ""}`} />
             <input
@@ -28,7 +28,7 @@ const App = () => {
               onChange={(e) => setTodo(e.target.value)}
               placeholder='What needs to be done?'
               className='italic font-thin text-lg w-full h-12 p-2 outline-none'
-              maxLength={30}
+              maxLength={29}
             />
             <button onClick={addTodo} className='p-2 px-4'>Add</button>
           </div>
