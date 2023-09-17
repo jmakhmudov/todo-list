@@ -28,6 +28,7 @@ const App = () => {
               onChange={(e) => setTodo(e.target.value)}
               placeholder='What needs to be done?'
               className='italic font-thin text-lg w-full h-12 p-2 outline-none'
+              maxLength={30}
             />
             <button onClick={addTodo} className='p-2 px-4'>Add</button>
           </div>
